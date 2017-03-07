@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Interactive Chart</string>
+    <string name="add_point">Add Point</string>
+</resources>
