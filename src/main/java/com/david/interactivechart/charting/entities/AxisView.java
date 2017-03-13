@@ -2,9 +2,7 @@ package com.david.interactivechart.charting.entities;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
 import android.view.View;
 
 /**
@@ -15,12 +13,12 @@ public class AxisView extends View{
     private Paint mPaint;
 
 
-    public AxisView(Context context, AttributeSet attrs)
+    public AxisView(Context context, int color)
     {
-        super(context,attrs);
+        super(context);
 
         mPaint = new Paint();
-        mPaint.setColor(Color.CYAN);
+        mPaint.setColor(color);
         mPaint.setStrokeWidth(5f);
 
 

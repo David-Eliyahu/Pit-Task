@@ -108,4 +108,9 @@ public class PointsService {
     public void sort() {
         Collections.sort(mPointList);
     }
+
+    public void restart(float width, float height){
+        mPointList.clear();
+        initList(width, height);
+    }
 }

@@ -1,14 +1,15 @@
 package com.david.interactivechart.charting;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
+import com.david.interactivechart.R;
 import com.david.interactivechart.charting.entities.AxisView;
 import com.david.interactivechart.charting.entities.Point;
 import com.david.interactivechart.charting.listeners.CostumeTouchListener;
@@ -21,11 +22,16 @@ import java.util.ListIterator;
  */
 public class Pit extends ViewGroup{
 
+    private int mShape;
+    private int mAxisColor;
+    private int mLineColor;
+    private int mPointColor;
     private AxisView mAxisView;
     private Paint mPointPaint;
     private Paint mLinePaint;
     private PointsService pointsService;
     private GestureDetector mDetector;
+    private float mRectSize;
 
     /**
      * Class constructor taking only a context. Use this constructor to create
@@ -39,6 +45,29 @@ public class Pit extends ViewGroup{
 
     public Pit(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.Pit,
+                0, 0
+        );
+
+        try {
+            // Retrieve the values from the TypedArray and store into
+            // fields of this class.
+
+            mPointColor = a.getColor(R.styleable.Pit_pointColor, 0xffff0000);
+            mLineColor = a.getColor(R.styleable.Pit_lineColor,   0xff000000);
+            mAxisColor = a.getColor(R.styleable.Pit_axisColor,   0xff00ffff);
+
+            mShape = a.getInt(R.styleable.Pit_shape, 1);
+
+        } finally {
+            // release the TypedArray so that it can be reused.
+            a.recycle();
+        }
+
+
         init();
     }
 
@@ -52,13 +81,17 @@ public class Pit extends ViewGroup{
 
         mPointPaint = new Paint();
         mPointPaint.setStyle(Paint.Style.FILL);
-        mPointPaint.setColor(Color.RED);
+        mPointPaint.setStrokeWidth(3f);
+        mPointPaint.setColor(mPointColor);
+
+        mRectSize = 15f;
+
 
         mLinePaint = new Paint();
-        mLinePaint.setColor(Color.BLACK);
+        mLinePaint.setColor(mLineColor);
         mLinePaint.setStrokeWidth(3f);
 
-        mAxisView = new AxisView(getContext(), null);
+        mAxisView = new AxisView(getContext(), mAxisColor);
         addView(mAxisView);
 
         mDetector = new GestureDetector(getContext(), new CostumeTouchListener(this));
@@ -137,6 +170,11 @@ public class Pit extends ViewGroup{
         onDataChanged();
     }
 
+    public void restart()
+    {
+        pointsService.restart(getMeasuredWidth()/2,getMeasuredHeight()/2);
+        onDataChanged();
+    }
     /**
      * Sort the list and invalidate the view
      */
@@ -155,6 +193,8 @@ public class Pit extends ViewGroup{
         float width = this.getMeasuredWidth()/2;
         float height = this.getMeasuredHeight()/2;
 
+        //canvas.drawRect(0,0,width, height, mPointPaint);
+
 
         while (listIterator.hasNext()) {
             Point previous = null;
@@ -164,8 +204,12 @@ public class Pit extends ViewGroup{
             }
             Point next = listIterator.next();
 
+
             // Draw each point from the list
+            if(mShape == 1)
+                canvas.drawRect(width + next.getCx() - mRectSize, height+ next.getCy() - mRectSize, width + next.getCx() + mRectSize , height + next.getCy() + mRectSize, mPointPaint);
             canvas.drawCircle(width + next.getCx(), height + next.getCy(),next.getRadius(),mPointPaint);
+
 
             if(previous != null){
                 // Draw liner edge between the points base on the previous and current point

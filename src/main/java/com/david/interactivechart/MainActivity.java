@@ -23,5 +23,11 @@ public class MainActivity extends AppCompatActivity {
                 pit.addPoint();
             }
         });
+
+        findViewById(R.id.restart).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                pit.restart();
+            }
+        });
     }
 }

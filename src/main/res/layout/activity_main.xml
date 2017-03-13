@@ -2,22 +2,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     
     <com.david.interactivechart.charting.Pit
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pit"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/addPoint" />
 
-    <Button
+        app:pointColor="@color/colorBlack"
+        app:lineColor="@color/colorRed"
+        app:axisColor="@color/colorPrimaryDark"
+        app:shape="circle"
+
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/buttonLayout" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/addPoint"
-        android:text="@string/add_point"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttonLayout"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/addPoint"
+            android:text="@string/add_point"
+            android:textAllCaps="false"
+            android:layout_alignParentBottom="true" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/restart"
+            android:text="@string/restart"
+            android:textAllCaps="false"
+            android:layout_alignParentBottom="true" />
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

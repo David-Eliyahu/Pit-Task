@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Pit">
-        <attr name="showLabel" format="boolean"/>
-        <attr name="labelColor" format="color"/>
+        <attr name="pointColor" format="color"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="axisColor" format="color"/>
+        <attr name="shape" format="enum">
+            <enum name="square" value="1"/>
+            <enum name="circle" value="2"/>
+        </attr>
     </declare-styleable>
 </resources>
